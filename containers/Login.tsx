@@ -4,9 +4,10 @@ import { executeRequest } from "../services/api";
 
 type LoginProps = {
     setToken(s: string): void
+    setComponent(s: boolean): void
 }
 
-export const Login: NextPage<LoginProps> = ({setToken}) => {
+export const Login: NextPage<LoginProps> = ({setToken,setComponent}) => {
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -48,6 +49,26 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
         setLoading(false);
     }
 
+    const redirect = async () => {
+        try{
+            setError('');
+
+            setLoading(true);
+
+            setComponent(true);
+
+        }catch(e : any){
+            console.log(`Erro ao efetuar login: ${e}`);
+            if(e?.response?.data?.error){
+                setError(e.response.data.error);
+            }else{
+                setError(`Erro ao efetuar login, tente novamente.`);
+            }
+        }
+        
+        setLoading(false);
+    }
+
     return (
         <div className="container-login">
             <img src="/logo.svg" alt="Logo Fiap" className="logo" />
@@ -68,6 +89,7 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
                     />
                 </div>
                 <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando': 'Login'}</button>
+                <button onClick={redirect} disabled={loading}>{loading ? '...Carregando': 'Signup'}</button>
             </div>
         </div>
     );
