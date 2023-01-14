@@ -13,6 +13,7 @@ export const Login: NextPage<LoginProps> = ({setToken,setComponent}) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [loadingSignUp, setLoadingSignUp] = useState(false);
 
     const doLogin = async () => {
         try{
@@ -53,7 +54,7 @@ export const Login: NextPage<LoginProps> = ({setToken,setComponent}) => {
         try{
             setError('');
 
-            setLoading(true);
+            setLoadingSignUp(true);
 
             setComponent(true);
 
@@ -66,7 +67,7 @@ export const Login: NextPage<LoginProps> = ({setToken,setComponent}) => {
             }
         }
         
-        setLoading(false);
+        setLoadingSignUp(false);
     }
 
     return (
@@ -89,7 +90,7 @@ export const Login: NextPage<LoginProps> = ({setToken,setComponent}) => {
                     />
                 </div>
                 <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando': 'Login'}</button>
-                <button onClick={redirect} disabled={loading}>{loading ? '...Carregando': 'Signup'}</button>
+                <button onClick={redirect} disabled={loadingSignUp}>{loadingSignUp ? '...Carregando': 'Signup'}</button>
             </div>
         </div>
     );
