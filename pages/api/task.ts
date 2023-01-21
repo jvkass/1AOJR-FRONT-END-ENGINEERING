@@ -142,7 +142,7 @@ const saveTask = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
             return res.status(400).json({ error: 'Nome da tarefa invalida' });
         }
 
-        if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment().locale('America/fortaleza'))) {
+        if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment().local())) {
             return res.status(400).json({ error: 'Data de previsao invalida ou menor que hoje' });
         }
 
