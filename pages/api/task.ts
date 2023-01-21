@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDB } from '../../middlewares/connectToDB';
 import { jwtValidator } from '../../middlewares/jwtValidator';
@@ -142,9 +142,11 @@ const saveTask = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
             return res.status(400).json({ error: 'Nome da tarefa invalida' });
         }
 
-        if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment())) {
+        if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment().locale('America/fortaleza'))) {
             return res.status(400).json({ error: 'Data de previsao invalida ou menor que hoje' });
         }
+
+        task.finishPrevisionDate = String(moment(task.finishPrevisionDate).local());
 
         const final = {
             ...task,
